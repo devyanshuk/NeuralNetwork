@@ -27,23 +27,18 @@ class NeuralNetwork:
         
         :params hidden_layer_sizes: 
             List containing sizes of neurons in each layer, where number of layers is the size of the list.
-
         :params activation:
             Activation function for the hidden layers (default = 'relu')
             1) relu : ReLU(x) = max(0, x)
             2) softmax : softmax(x) = (e^x) / sum (j in x (e^j))
             3) sigmoid : sigmoid(x) = 1 / (1 + e^(-x))
-
         :params seed:
             Random seed to be used to extract train data for training the neural network.
-
         :params learning rate:
             Learning rate(alpha) hyperparameter to be used to update the weights and biases
             in the network.
-
         :params epochs:
             Number of stochastic gradient descent epochs.
-
         :params batch_size:
             Size of minibatch to be used to compute derivatives to update the weights and biases.
         """
@@ -68,6 +63,12 @@ class NeuralNetwork:
         if (any(param <= 0 for param in self.hidden_layer_sizes)):
             raise ValueError("Hidden layer must be an integer greater than 0")
         self.initWeightsAndBiases(X)
+        self.minibatchSGD(X, y)
+
+    def fit_more(self, X, y):
+        """
+        Fit some more data to the trained model.
+        """
         self.minibatchSGD(X, y)
 
     def validate_trained(self):
@@ -218,6 +219,3 @@ class NeuralNetwork:
         prediction = self.predict(X)
         accuracy = sum(1 if a == b else 0 for a,b in np.stack((prediction, y), axis=1))
         return accuracy / len(prediction)
-    
-        
-
